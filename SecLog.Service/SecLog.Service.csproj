@@ -84,11 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SecLog.Contracts\SecLog.Contracts.csproj">
-      <Project>{9dfbe556-2fea-49c7-a404-ee3a49593801}</Project>
+      <Project>{c43a9f2e-5529-4bc8-a01f-721cf1eb32d4}</Project>
       <Name>SecLog.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecLog.Data\SecLog.Data.csproj">
-      <Project>{daefb283-301c-47cc-b6e0-4f9cc1d824b5}</Project>
+      <Project>{3bce146b-aea9-4f23-9703-0115cbd88a83}</Project>
       <Name>SecLog.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecLog.Models\SecLog.Models.csproj">
