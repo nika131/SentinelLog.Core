@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SecLog.Models
 {
     [Table("SecurityEvents")]
-    internal class SecurityEvent
+    public class SecurityEvent
     {
         [Key]
         public int id { get; set; }
