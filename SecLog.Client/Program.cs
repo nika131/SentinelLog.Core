@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json; 
 using SecLog.Models;
+using System.Collections.Generic;
 
 namespace SecLog.Client
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("=== SentinelLog Security Client ===");
 
@@ -22,17 +24,22 @@ namespace SecLog.Client
                 Timestamp = DateTime.Now
             };
 
-            SendLog(e);
+            await SendLog(e);
 
-            Console.WriteLine("\nPress any key to exit...");
+            Console.WriteLine("\n--- Current system logs---");
+            await FetchAndPrintLogs();
+
+            Console.WriteLine("\n Press any key to exit...");
             Console.ReadKey();
         }
 
-        static async void SendLog(SecurityEvent ev)
+        static async Task SendLog(SecurityEvent ev)
         {
             using (var client = new HttpClient())
             {
                 var url = "http://localhost:60896/SecurityService.svc/LogEvent";
+
+                client.DefaultRequestHeaders.Add("X-API-KEY", "Sentinel-1234");
 
                 var settings = new JsonSerializerSettings
                 {
@@ -48,6 +55,34 @@ namespace SecLog.Client
                 var result = await response.Content.ReadAsStringAsync();
 
                 Console.WriteLine("Service Response: " + result);
+            }
+        }
+
+
+        static async Task FetchAndPrintLogs()
+        {
+            using (var client = new HttpClient())
+            {
+                var url = "http://localhost:60896/SecurityService.svc/GetLogs";
+
+                client.DefaultRequestHeaders.Add("X-API-KEY", "Sentinel-1234");
+
+                var response = await client.GetAsync(url);
+                var json = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var logs = JsonConvert.DeserializeObject<List<SecurityEvent>>(json);
+
+                    foreach (var log in logs)
+                    {
+                        Console.WriteLine($"[{log.Timestamp}] {log.Severity} | {log.EventType} from {log.IpAddress}: {log.Message}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"failed to fetch logs: {response.StatusCode}");
+                }
             }
         }
     }
