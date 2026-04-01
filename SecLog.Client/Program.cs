@@ -34,7 +34,12 @@ namespace SecLog.Client
             {
                 var url = "http://localhost:60896/SecurityService.svc/LogEvent";
 
-                var json = JsonConvert.SerializeObject(ev);
+                var settings = new JsonSerializerSettings
+                {
+                    DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
+                };
+
+                var json = JsonConvert.SerializeObject(ev, settings);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 Console.WriteLine($"Sending {ev.EventType} to {url}...");
