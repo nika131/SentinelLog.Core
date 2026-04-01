@@ -8,7 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="System.ServiceModel.Http" Version="10.0.652802" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SecLog.Contracts\SecLog.Contracts.csproj" />
+    <ProjectReference Include="..\SecLog.Data\SecLog.Data.csproj" />
   </ItemGroup>
 
 </Project>
